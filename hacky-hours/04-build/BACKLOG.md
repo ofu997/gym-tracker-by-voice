@@ -13,7 +13,7 @@ Completed work belongs in CHANGELOG.md, not here.
 
 - [x] Scaffold project — Vite + React + TypeScript, ESLint, Prettier, folder structure
 - [x] Local data store — IndexedDB schema and data access layer (User, Exercise, Plan, Workout, PlanExercise, PlanTarget, Session, Set, DigestReport)
-- [ ] Google OAuth2 sign-in — auth flow, User record creation, secure token handling
+- [x] Google OAuth2 sign-in — auth flow, User record creation, secure token handling
 
 ### Backend
 
