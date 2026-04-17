@@ -21,7 +21,7 @@ Completed work belongs in CHANGELOG.md, not here.
 
 ### Core logging flow
 
-- [ ] Text logging — text note → LLM parse → preview with inline editing → save
+- [x] Text logging — text note → LLM parse → preview with inline editing → save
 - [ ] Voice input — Web Speech API → text → handoff to existing parse/save flow
 - [ ] Exercise canonicalization — match input name against library (canonical + aliases), create on miss
 

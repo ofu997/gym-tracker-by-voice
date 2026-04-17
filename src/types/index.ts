@@ -72,7 +72,7 @@ export interface PlanTarget {
 export interface Session {
   id: string
   userId: string
-  workoutId: string
+  workoutId: string | null  // null for MVP sessions logged without a plan
   healthState: string
   notes: string
   date: string
