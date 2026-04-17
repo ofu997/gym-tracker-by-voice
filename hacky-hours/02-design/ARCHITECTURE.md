@@ -127,5 +127,6 @@ Email ingestion requires server-side infrastructure (an email receiver + routing
 - **Apple Sign-In**: required once mobile app ships
 - **Cloud sync**: user-owned storage via Google Drive / iCloud / OneDrive APIs
 - **Email input**: inbound routing service (e.g. Pipedream) + OAuth inbox reading, or .NET Minimal API webhook receiver
+- **3-month progress email**: requires storing user email address (explicitly excluded from MVP data model) and an outbound email service (e.g. SendGrid, Postmark); the LLM proxy would need to be extended or a new serverless function added to handle rendering and sending
 - **On-device LLM**: eliminates cloud LLM trust boundary entirely; proxy interface already structured for this swap
 - **Shared logic package**: extract shared TypeScript types and business logic into a workspace package consumed by both Expo and web apps

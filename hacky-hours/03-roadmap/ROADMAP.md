@@ -94,6 +94,9 @@ Roll straight into this from MVP if logging is working well — the split is con
 **Additional input**
 - Email ingestion (send workout notes to a dedicated address)
 
+**Progress reporting**
+- 3-month progress summary email — visual infographic chart sent automatically at each 3-month milestone (requires email storage and sending service)
+
 **Privacy**
 - On-device LLM option (eliminates cloud LLM trust boundary)
 - LLM provider configurability (bring your own API key)

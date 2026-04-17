@@ -78,7 +78,7 @@ flowchart TD
 
 ## 3. Workout Plan Creation
 
-All three input tiers translate to the same `PlanExercise` fields in the data model.
+A Plan contains one or more named Workouts (e.g. Push Day, Pull Day). Each Workout contains its own PlanExercises with independent PO targets. All three input tiers translate to the same `PlanExercise` fields in the data model.
 
 ### Tier 1 — Narrative
 User provides a goal in natural language: "I want to get to a 225lb bench press."
@@ -106,9 +106,10 @@ User specifies every field directly. No LLM inference. Used by power users who w
 
 ### Advancing targets
 
-After a session is logged that includes a plan exercise:
-- If `increment_frequency` is `per_session`: advance `current_target_*` fields immediately
+After a session is logged for a Workout:
+- For each PlanExercise in that Workout: if `increment_frequency` is `per_session`, advance `current_target_index` immediately
 - If `increment_frequency` is `per_week`: advance only if the last advancement was more than 7 days ago
+- PO targets advance independently per Workout — logging Push Day does not advance targets for the same exercise in Full Body
 
 Target advancement is not retroactive. If a session is logged late (past date), targets advance from the time of logging, not the session date.
 
@@ -198,7 +199,24 @@ The digest reports what happened — it does not moralize. A week with no sessio
 
 ---
 
-## 6. Out of Scope (MVP)
+## 6. Local Storage Eviction
+
+To prevent local storage from growing indefinitely on mobile browsers, session history is capped at a rolling 3-month window.
+
+### Rules
+
+- On app load and after each session save, delete any SESSION records (and their associated SET records) where `session.date` is older than 90 days from today
+- Eviction is silent — no user notification
+- Only SESSION and SET records are evicted. PLAN, WORKOUT, PLAN_EXERCISE, PLAN_TARGET, EXERCISE, and DIGEST_REPORT are never evicted — the user's plan and exercise library are always preserved
+- DIGEST_REPORT records older than 90 days are also evicted (they reference the same historical window)
+
+### V1+ — 3-Month Progress Email
+
+When a user's account reaches 3 months of history (or at each 3-month anniversary), generate and send a visual progression summary by email. This requires email storage (user's email address) and an email-sending service — both deferred to V1+. See ARCHITECTURE.md for the infrastructure implications.
+
+---
+
+## 7. Out of Scope (MVP)
 
 - No push notifications — digest is generated on demand or on a scheduled pull
 - No social features, sharing, or comparison to other users
