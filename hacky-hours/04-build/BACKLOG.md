@@ -22,7 +22,7 @@ Completed work belongs in CHANGELOG.md, not here.
 ### Core logging flow
 
 - [x] Text logging — text note → LLM parse → preview with inline editing → save
-- [ ] Voice input — Web Speech API → text → handoff to existing parse/save flow
+- [x] Voice input — Web Speech API → text → handoff to existing parse/save flow
 - [ ] Exercise canonicalization — match input name against library (canonical + aliases), create on miss
 
 ### Edge cases

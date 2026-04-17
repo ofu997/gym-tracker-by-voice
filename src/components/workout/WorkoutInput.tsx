@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import VoiceButton from './VoiceButton'
 
 interface Props {
   onSubmit: (text: string) => void
@@ -11,6 +12,11 @@ export default function WorkoutInput({ onSubmit, disabled }: Props) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (text.trim()) onSubmit(text.trim())
+  }
+
+  function handleTranscript(transcript: string) {
+    setText(transcript)
+    onSubmit(transcript)
   }
 
   return (
@@ -28,13 +34,16 @@ export default function WorkoutInput({ onSubmit, disabled }: Props) {
         style={{ padding: '0.75rem', fontSize: '1rem', resize: 'vertical', borderRadius: '6px', border: '1px solid #ccc' }}
         aria-label="Workout note"
       />
-      <button
-        type="submit"
-        disabled={disabled || !text.trim()}
-        style={{ alignSelf: 'flex-start', padding: '0.5rem 1.25rem', fontSize: '1rem', borderRadius: '6px', cursor: 'pointer' }}
-      >
-        {disabled ? 'Parsing…' : 'Parse workout'}
-      </button>
+      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <button
+          type="submit"
+          disabled={disabled || !text.trim()}
+          style={{ padding: '0.5rem 1.25rem', fontSize: '1rem', borderRadius: '6px', cursor: 'pointer' }}
+        >
+          {disabled ? 'Parsing…' : 'Parse workout'}
+        </button>
+        <VoiceButton onTranscript={handleTranscript} disabled={disabled} />
+      </div>
     </form>
   )
 }
