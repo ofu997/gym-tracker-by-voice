@@ -17,7 +17,7 @@ Completed work belongs in CHANGELOG.md, not here.
 
 ### Backend
 
-- [ ] LLM proxy — serverless function (Vercel/Cloudflare), prompt design, structured JSON response schema
+- [x] LLM proxy — serverless function (Vercel/Cloudflare), prompt design, structured JSON response schema
 
 ### Core logging flow
 
