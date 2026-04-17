@@ -80,7 +80,7 @@ export interface Session {
   updatedAt: string
 }
 
-export interface Set {
+export interface WorkoutSet {
   id: string
   sessionId: string
   exerciseId: string
