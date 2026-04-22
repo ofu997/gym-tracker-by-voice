@@ -177,6 +177,7 @@ export default function WorkoutPreview({ workout, onChange, onConfirm, onCancel,
           type="button"
           onClick={onConfirm}
           disabled={saving}
+          aria-busy={saving}
           style={{ padding: '0.6rem 1.5rem', fontSize: '1rem', borderRadius: '6px', cursor: 'pointer', background: '#1a73e8', color: '#fff', border: 'none' }}
         >
           {saving ? 'Saving…' : 'Save workout'}

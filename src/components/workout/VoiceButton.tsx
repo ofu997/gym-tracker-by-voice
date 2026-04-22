@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   isSpeechSupported,
   hasSpeechConsent,
@@ -18,7 +18,13 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
   const [status, setStatus] = useState<Status>('idle')
   const [interimText, setInterimText] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const [announcement, setAnnouncement] = useState('')
   const sessionRef = useRef<SpeechSession | null>(null)
+  const consentAcceptRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    if (status === 'consent') consentAcceptRef.current?.focus()
+  }, [status])
 
   if (!isSpeechSupported()) return null
 
@@ -41,6 +47,7 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
     setStatus('listening')
     setInterimText('')
     setErrorMsg('')
+    setAnnouncement('Recording started')
 
     sessionRef.current = startListening(
       (interim) => setInterimText(interim),
@@ -48,6 +55,7 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
         sessionRef.current = null
         setStatus('idle')
         setInterimText('')
+        setAnnouncement('Recording stopped')
         onTranscript(final)
       },
       (msg) => {
@@ -55,6 +63,7 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
         setStatus('error')
         setErrorMsg(msg)
         setInterimText('')
+        setAnnouncement('')
       }
     )
   }
@@ -97,6 +106,7 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
                 Cancel
               </button>
               <button
+                ref={consentAcceptRef}
                 onClick={handleConsentAccept}
                 style={{ padding: '0.5rem 1rem', borderRadius: '6px', border: 'none', background: '#1a73e8', color: '#fff', cursor: 'pointer' }}
               >
@@ -106,6 +116,14 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
           </div>
         </div>
       )}
+
+      <span
+        aria-live="assertive"
+        aria-atomic="true"
+        style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+      >
+        {announcement}
+      </span>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
         <button

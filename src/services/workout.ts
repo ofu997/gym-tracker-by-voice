@@ -1,4 +1,4 @@
-import { upsertSession, upsertSet, findExerciseByName, upsertExercise } from '../db'
+import { upsertSession, upsertSet, findExerciseByName, upsertExercise, getPreferredWeightUnit } from '../db'
 import type { Session, Exercise, WorkoutSet } from '../types'
 import type { ParsedWorkout } from './llm'
 
@@ -14,14 +14,17 @@ export async function saveWorkoutSession(
   originalNote: string
 ): Promise<SavedSession> {
   const now = new Date().toISOString()
+  const preferredUnit = await getPreferredWeightUnit(userId)
 
   const session: Session = {
     id: crypto.randomUUID(),
     userId,
     workoutId: null,
+    sessionType: parsed.sessionType ?? null,
     healthState: parsed.healthState ?? '',
     notes: originalNote,
     date: parsed.date,
+    isComplete: parsed.isComplete,
     createdAt: now,
     updatedAt: now,
   }
@@ -55,7 +58,7 @@ export async function saveWorkoutSession(
         exerciseId: exercise.id,
         setNumber: parsedSet.setNumber,
         weight: parsedSet.weight,
-        weightUnit: parsedSet.weightUnit ?? 'lbs',
+        weightUnit: parsedSet.weightUnit ?? preferredUnit,
         reps: parsedSet.reps,
         notes: parsedSet.notes ?? '',
         createdAt: now,

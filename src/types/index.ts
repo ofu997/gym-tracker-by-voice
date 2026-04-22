@@ -73,9 +73,11 @@ export interface Session {
   id: string
   userId: string
   workoutId: string | null  // null for MVP sessions logged without a plan
+  sessionType: string | null
   healthState: string
   notes: string
   date: string
+  isComplete: boolean
   createdAt: string
   updatedAt: string
 }
